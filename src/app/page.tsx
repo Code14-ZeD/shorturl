@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { Github } from "lucide-react";
 
 export default function HomePage() {
   const [url, setUrl] = useState("");
@@ -75,11 +76,22 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* Dashboard Button */}
-      <section className="mt-8">
+      {/* Action Buttons */}
+      <section className="mt-8 flex gap-4">
         <Link href="/dashboard">
           <Button variant="outline">📊 Go to Dashboard</Button>
         </Link>
+
+        {/* GitHub Link */}
+        <a
+          href="https://github.com/Code14-ZeD/shorturl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button variant="secondary" className="flex items-center gap-2">
+            <Github className="w-4 h-4" /> GitHub
+          </Button>
+        </a>
       </section>
     </main>
   );

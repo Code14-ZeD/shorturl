@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { db } from "../../../../lib/db";
-import { shortUrls } from "../../../../lib/schema";
+import { db } from "@/../lib/db";
+import { shortUrls } from "@/../lib/schema";
 
 export async function POST(req: NextRequest) {
   const { url } = await req.json();
