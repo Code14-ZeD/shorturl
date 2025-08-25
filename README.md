@@ -41,7 +41,7 @@ Create short, shareable links and track their performance with built-in analytic
 
 ```bash
 git clone https://github.com/Code14-ZeD/shorturl.git
-cd url-shortener
+cd shorturl
 ```
 
 ### 2. Install Dependencies
