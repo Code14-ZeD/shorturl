@@ -40,7 +40,7 @@ Create short, shareable links and track their performance with built-in analytic
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/url-shortener.git
+git clone https://github.com/Code14-ZeD/shorturl.git
 cd url-shortener
 ```
 
