@@ -86,63 +86,65 @@ export default function DashboardPage() {
       {/* URL Table */}
       <Card>
         <CardContent className="p-0">
-          <table className="w-full text-sm border">
-            <thead>
-              <tr className="border-b bg-gray-100">
-                <th className="p-2 text-left">Short URL</th>
-                <th className="p-2 text-left">Original URL</th>
-                <th className="p-2 text-left">Clicks</th>
-                <th className="p-2 text-left">Created</th>
-                <th className="p-2 text-left">Analytics</th>
-              </tr>
-            </thead>
-            <tbody>
-              {urls.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="p-4 text-center text-gray-500">
-                    No URLs shortened yet
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border min-w-[600px]">
+              <thead>
+                <tr className="border-b bg-gray-100">
+                  <th className="p-2 text-left">Short URL</th>
+                  <th className="p-2 text-left">Original URL</th>
+                  <th className="p-2 text-left">Clicks</th>
+                  <th className="p-2 text-left">Created</th>
+                  <th className="p-2 text-left">Analytics</th>
                 </tr>
-              )}
-              {urls.map((url) => (
-                <tr key={url.id} className="border-b">
-                  <td className="p-2">
-                    <a
-                      href={`/${url.id}`}
-                      target="_blank"
-                      className="text-blue-600 underline"
-                    >
-                      {`${
-                        process.env.NEXT_PUBLIC_BASE_URL ||
-                        "http://localhost:3000"
-                      }/${url.id}`}
-                    </a>
-                  </td>
-                  <td className="p-2 truncate max-w-xs">
-                    <a
-                      href={url.original}
-                      target="_blank"
-                      className="text-gray-700 hover:underline"
-                    >
-                      {url.original}
-                    </a>
-                  </td>
-                  <td className="p-2">{url.clickCount}</td>
-                  <td className="p-2">
-                    {new Date(url.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="p-2">
-                    <Link
-                      href={`/analytics/${url.id}`}
-                      className="text-blue-500 underline"
-                    >
-                      View
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {urls.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="p-4 text-center text-gray-500">
+                      No URLs shortened yet
+                    </td>
+                  </tr>
+                )}
+                {urls.map((url) => (
+                  <tr key={url.id} className="border-b">
+                    <td className="p-2 whitespace-nowrap">
+                      <a
+                        href={`/${url.id}`}
+                        target="_blank"
+                        className="text-blue-600 underline"
+                      >
+                        {`${
+                          process.env.NEXT_PUBLIC_BASE_URL ||
+                          "http://localhost:3000"
+                        }/${url.id}`}
+                      </a>
+                    </td>
+                    <td className="p-2 truncate max-w-[150px]">
+                      <a
+                        href={url.original}
+                        target="_blank"
+                        className="text-gray-700 hover:underline"
+                      >
+                        {url.original}
+                      </a>
+                    </td>
+                    <td className="p-2 text-center">{url.clickCount}</td>
+                    <td className="p-2 whitespace-nowrap">
+                      {new Date(url.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="p-2">
+                      <Link
+                        href={`/analytics/${url.id}`}
+                        className="text-blue-500 underline"
+                      >
+                        View
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </CardContent>
       </Card>
     </div>
