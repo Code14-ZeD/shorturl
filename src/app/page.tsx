@@ -1,58 +1,86 @@
 "use client";
 
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   const [url, setUrl] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
+  const [shortUrl, setShortUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleShorten = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!url) return;
 
-    const res = await fetch("/api/short", {
+    setLoading(true);
+    setShortUrl(null);
+
+    const res = await fetch("/api/urls", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url }),
+      body: JSON.stringify({ original: url }),
     });
 
     const data = await res.json();
-    if (data.shortUrl) {
-      setShortUrl(data.shortUrl);
-    }
+    setShortUrl(
+      `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/${
+        data.id
+      }`
+    );
+
+    setUrl("");
+    setLoading(false);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6">
-      <h1 className="text-2xl font-bold mb-4">URL Shortener</h1>
-      <form onSubmit={handleSubmit} className="flex gap-2">
-        <input
-          type="url"
-          placeholder="Enter your URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          required
-          className="border px-3 py-2 rounded w-80"
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Shorten
-        </button>
-      </form>
-
-      {shortUrl && (
-        <p className="mt-4">
-          Shortened URL:{" "}
-          <a
-            href={shortUrl}
-            target="_blank"
-            className="text-blue-500 underline"
-          >
-            {shortUrl}
-          </a>
+    <main className="flex flex-col items-center justify-center min-h-screen px-4">
+      {/* Hero Section */}
+      <section className="max-w-2xl text-center space-y-4 mb-8">
+        <h1 className="text-4xl font-bold">🔗 URL Shortener</h1>
+        <p className="text-gray-600">
+          Create short, shareable links and track their performance with
+          built-in analytics. Your mini Bitly — simple, fast, and free.
         </p>
-      )}
-    </div>
+      </section>
+
+      {/* Shorten Form */}
+      <section className="w-full max-w-lg">
+        <form onSubmit={handleShorten} className="flex gap-2">
+          <Input
+            type="url"
+            placeholder="Paste your long URL here"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            required
+          />
+          <Button type="submit" disabled={loading}>
+            {loading ? <Loader2 className="animate-spin w-4 h-4" /> : "Shorten"}
+          </Button>
+        </form>
+
+        {shortUrl && (
+          <div className="mt-4 text-center">
+            <p className="text-gray-700">Here’s your short link:</p>
+            <a
+              href={shortUrl}
+              target="_blank"
+              className="text-blue-600 underline break-all"
+            >
+              {shortUrl}
+            </a>
+          </div>
+        )}
+      </section>
+
+      {/* Dashboard Button */}
+      <section className="mt-8">
+        <Link href="/dashboard">
+          <Button variant="outline">📊 Go to Dashboard</Button>
+        </Link>
+      </section>
+    </main>
   );
 }
